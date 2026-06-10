@@ -9,54 +9,55 @@ int main()
 {
     std::vector<RouteEntry> routes;
 
-    routes.push_back({
-        ipToUint32("10.0.0.0"),
-        8
+    routes.push_back(
+    {
+        .network = ipToUint32("10.0.0.0"),
+        .prefixLength = 8
     });
 
     routes.push_back({
-        ipToUint32("10.64.0.0"),
-        10
+        .network = ipToUint32("10.64.0.0"),
+        .prefixLength = 10
     });
 
     routes.push_back({
-        ipToUint32("10.80.0.0"),
-        12
+        .network = ipToUint32("10.80.0.0"),
+        .prefixLength = 12
     });
 
     routes.push_back({
-        ipToUint32("10.80.16.0"),
+        .network = ipToUint32("10.80.16.0"),
         20
     });
 
     routes.push_back({
-        ipToUint32("10.80.16.128"),
-        25
+        .network = ipToUint32("10.80.16.128"),
+        .prefixLength = 25
     });
 
     routes.push_back({
-        ipToUint32("10.80.16.192"),
-        26
+        .network = ipToUint32("10.80.16.192"),
+        .prefixLength = 26
     });
 
     routes.push_back({
-        ipToUint32("10.80.16.224"),
-        27
+        .network = ipToUint32("10.80.16.224"),
+        .prefixLength = 27
     });
 
     routes.push_back({
-        ipToUint32("10.80.16.240"),
-        28
+        .network = ipToUint32("10.80.16.240"),
+        .prefixLength = 28
     });
 
     routes.push_back({
-        ipToUint32("10.80.16.248"),
-        29
+        .network = ipToUint32("10.80.16.248"),
+        .prefixLength = 29
     });
 
     routes.push_back({
-        ipToUint32("10.80.16.252"),
-        30
+        .network = ipToUint32("10.80.16.252"),
+        .prefixLength = 30
     });
 
     Trie trie;
