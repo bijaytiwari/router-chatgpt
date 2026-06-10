@@ -5,6 +5,27 @@
 #include <iostream>
 #include <vector>
 
+void validate(
+    Trie& trie,
+    const std::string& ip,
+    uint32_t expectedPrefix)
+{
+    auto* route =
+        trie.lookup(ipToUint32(ip));
+
+    assert(route != nullptr);
+
+    assert(route->prefixLength ==
+           expectedPrefix);
+
+    std::cout
+        << "PASS "
+        << ip
+        << " -> /"
+        << expectedPrefix
+        << '\n';
+}
+
 int main()
 {
     std::vector<RouteEntry> routes;
@@ -27,7 +48,7 @@ int main()
 
     routes.push_back({
         .network = ipToUint32("10.80.16.0"),
-        20
+        .prefixLength = 20
     });
 
     routes.push_back({
@@ -77,5 +98,15 @@ int main()
     std::cout
         << "PASS: Longest Prefix Match /30 selected\n";
 
+    validate(trie, "10.1.1.1", 8);
+    validate(trie, "10.64.1.1", 10);
+    validate(trie, "10.80.1.1", 12);
+    validate(trie, "10.80.16.1", 20);
+    validate(trie, "10.80.16.130", 25);
+    validate(trie, "10.80.16.194", 26);
+    validate(trie, "10.80.16.225", 27);
+    validate(trie, "10.80.16.241", 28);
+    validate(trie, "10.80.16.249", 29);
+    validate(trie, "10.80.16.253", 30);
     return 0;
 }
