@@ -1,6 +1,67 @@
 #include "Trie.h"
-Trie::Trie(){root=new Node();}
-void Trie::destroy(Node*n){if(!n)return; destroy(n->c[0]); destroy(n->c[1]); delete n;}
-Trie::~Trie(){destroy(root);}
-void Trie::insert(RouteEntry*r){Node*cur=root; for(int i=31;i>=32-r->prefix;--i){int b=(r->network>>i)&1; if(!cur->c[b])cur->c[b]=new Node(); cur=cur->c[b];} cur->route=r;}
-RouteEntry* Trie::lookup(uint32_t ip,std::vector<RouteEntry*>* m) const{Node*cur=root; RouteEntry*best=root->route; for(int i=31;i>=0&&cur;--i){ if(cur->route&&cur->route->active){best=cur->route; if(m)m->push_back(best);} cur=cur->c[(ip>>i)&1]; } return best;}
+
+void Trie::insert(RouteEntry* route)
+{
+    Node* current = &root_;
+
+    for (int bit = 31;
+         bit >= static_cast<int>(32 - route->prefixLength);
+         --bit)
+    {
+        int value = (route->network >> bit) & 0x1;
+
+        if (!current->children[value])
+        {
+            current->children[value] =
+                std::make_unique<Node>();
+        }
+
+        current = current->children[value].get();
+    }
+
+    current->route = route;
+}
+
+RouteEntry* Trie::lookup(
+    uint32_t ip,
+    std::vector<RouteEntry*>* matchedRoutes) const
+{
+    const Node* current = &root_;
+
+    RouteEntry* bestMatch = nullptr;
+
+    if (root_.route && root_.route->active)
+    {
+        bestMatch = root_.route;
+
+        if (matchedRoutes)
+        {
+            matchedRoutes->push_back(bestMatch);
+        }
+    }
+
+    for (int bit = 31; bit >= 0; --bit)
+    {
+        int value = (ip >> bit) & 0x1;
+
+        if (!current->children[value])
+        {
+            break;
+        }
+
+        current = current->children[value].get();
+
+        if (current->route &&
+            current->route->active)
+        {
+            bestMatch = current->route;
+
+            if (matchedRoutes)
+            {
+                matchedRoutes->push_back(bestMatch);
+            }
+        }
+    }
+
+    return bestMatch;
+}

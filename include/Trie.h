@@ -1,12 +1,32 @@
 #pragma once
+
 #include "RouteEntry.h"
+
+#include <memory>
 #include <vector>
-class Trie {
-    struct Node { Node* c[2]{}; RouteEntry* route{}; };
-    Node* root;
-    void destroy(Node* n);
+
+class Trie
+{
 public:
-    Trie(); ~Trie();
-    void insert(RouteEntry* r);
-    RouteEntry* lookup(uint32_t ip,std::vector<RouteEntry*>* matched=nullptr) const;
+
+    Trie() = default;
+    ~Trie() = default;
+
+    void insert(RouteEntry* route);
+
+    RouteEntry* lookup(
+        uint32_t ip,
+        std::vector<RouteEntry*>* matchedRoutes = nullptr
+    ) const;
+
+private:
+
+    struct Node
+    {
+        std::unique_ptr<Node> children[2];
+
+        RouteEntry* route{nullptr};
+    };
+
+    Node root_;
 };
