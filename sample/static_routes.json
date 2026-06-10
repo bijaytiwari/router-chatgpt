@@ -1,1 +1,4 @@
-[{"network":"0.0.0.0","prefix":0,"nextHop":"192.168.1.254","interface":"eth0"},{"network":"10.0.0.0","prefix":8,"nextHop":"10.1.1.254","interface":"eth1"},{"network":"10.1.0.0","prefix":16,"nextHop":"10.1.1.254","interface":"eth1"}]
+[
+{"network":"0.0.0.0","prefix":0,"nextHop":"192.168.1.254","interface":"eth0"},
+{"network":"10.0.0.0","prefix":8,"nextHop":"10.1.1.254","interface":"eth1"}
+]
